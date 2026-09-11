@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+struct Result {
+    int minimum;
+    int maximum;
+};
+
+Result findMinMax(int arr[], int low, int high) {
+    if (low == high) {
+        return {arr[low], arr[low]};
+    }
+
+    if (high == low + 1) {
+        if (arr[low] > arr[high])
+            return {arr[high], arr[low]};
+        else
+            return {arr[low], arr[high]};
+    }
+
+    int mid = (low + high) / 2;
+
+    Result left = findMinMax(arr, low, mid);
+    Result right = findMinMax(arr, mid + 1, high);
+
+    Result answer;
+
+    answer.minimum = min(left.minimum, right.minimum);
+    answer.maximum = max(left.maximum, right.maximum);
+
+    return answer;
+}
+
+int main() {
+    int n;
+
+    cout << "Enter number of elements: ";
+    cin >> n;
+
+    int arr[n];
+
+    cout << "Enter elements:\n";
+    for (int i = 0; i < n; i++)
+        cin >> arr[i];
+
+    Result answer = findMinMax(arr, 0, n - 1);
+
+    cout << "Minimum = " << answer.minimum << endl;
+    cout << "Maximum = " << answer.maximum << endl;
+
+    return 0;
+}
